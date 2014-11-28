@@ -4,7 +4,7 @@ import (
 	"github.com/s-matyukevich/centurylink_sdk/models"
 )
 
-type DatacenterDeploymentCapabilities struct {
+type GetDatacenterDeploymentCapabilitiesRes struct {
 	models.ResModelBase
 	supportsPremiumStorag      bool
 	supportsSharedLoadBalancer bool

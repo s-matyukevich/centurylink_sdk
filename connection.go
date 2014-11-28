@@ -13,7 +13,7 @@ import (
 	"github.com/s-matyukevich/centurylink_sdk/models/authentication"
 )
 
-//this made a varaibel instaed of a constant for testing purpoise
+//this made a variable instead of a constant for testing purpoises
 var BaseUrl = "https://api.tier3.com/v2/"
 
 type connection struct {
@@ -37,6 +37,14 @@ func newConnection(username string, password string, logger *log.Logger) (cn *co
 	cn.accountAlias = loginRes.AccountAlias
 	cn.logger.Printf("Updateing connection. Bearer: %s, Alias: %s", cn.bearerToken, cn.accountAlias)
 	return
+}
+
+func newConnectionRaw(accountAlias string, bearerToken string, logger *log.Logger) (cn *connection) {
+	return &connection{
+		bearerToken:  bearerToken,
+		accountAlias: accountAlias,
+		logger:       logger,
+	}
 }
 
 func (cn *connection) ExecuteRequest(verb string, url string, reqModel interface{}, resModel interface{}) (err error) {

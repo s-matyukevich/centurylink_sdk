@@ -8,15 +8,15 @@ import (
 type GroupBilingDetailsRes struct {
 	models.ResModelBase
 	Date   time.Time
-	Groups []GroupDefinition
+	Groups []GroupDef
 }
 
-type GroupDefinition struct {
+type GroupDef struct {
 	Name    string
-	Servers []ServerDefinition
+	Servers []ServerDef
 }
 
-type ServerDefinition struct {
+type ServerDef struct {
 	TemplateCost    float64
 	ArchiveCost     float64
 	MonthlyEstimate float64

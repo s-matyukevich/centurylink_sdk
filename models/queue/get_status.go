@@ -4,7 +4,7 @@ import (
 	"github.com/s-matyukevich/centurylink_sdk/models"
 )
 
-type Status struct {
+type GetStatusRes struct {
 	models.ResModelBase
 	Status string
 }

@@ -4,7 +4,7 @@ import (
 	"github.com/s-matyukevich/centurylink_sdk/models"
 )
 
-type DatacenterGroup struct {
+type GetDatacenterGroupRes struct {
 	models.ResModelBase
 	Id    string
 	Name  string

@@ -8,10 +8,10 @@ import (
 type GroupMonitoringStatisticsRes struct {
 	models.ResModelBase
 	Name  string
-	Stats []StatsDefinition
+	Stats []StatsDef
 }
 
-type StatsDefinition struct {
+type StatsDef struct {
 	Timestamp                time.Time
 	Cpu                      float64
 	CpuPercent               float64
@@ -20,16 +20,16 @@ type StatsDefinition struct {
 	NetworkReceivedKbps      float64
 	NetworkTransmittedKbps   float64
 	DiskUsageTotalCapacityMB float64
-	DiskUsage                []DiskUsageDefinition
-	GuestDiskUsage           []GuestUsageDefinition
+	DiskUsage                []DiskUsageDef
+	GuestDiskUsage           []GuestUsageDef
 }
 
-type DiskUsageDefinition struct {
+type DiskUsageDef struct {
 	Id         string
 	capacityMB int
 }
 
-type GuestUsageDefinition struct {
+type GuestUsageDef struct {
 	Path       string
 	CapacityMB int
 	ConsumedMB int

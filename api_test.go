@@ -5,6 +5,7 @@ import (
 	gc "gopkg.in/check.v1"
 	"net/http"
 	"net/http/httptest"
+	"reflect"
 	"testing"
 
 	models "github.com/s-matyukevich/centurylink_sdk/models"
@@ -44,9 +45,22 @@ func (s *ApiSuite) setResponse(url string, resBody string) {
 	})
 }
 
+func (s *ApiSuite) Check(c *gc.C, js string, obj interface{}) {
+	var obj1 interface{}
+	err := json.Unmarshal([]byte(js), obj1)
+	c.Check(err, gc.IsNil)
+
+	newJson, err := json.Marshal(obj)
+	c.Check(err, gc.IsNil)
+	var obj2 interface{}
+	err = json.Unmarshal([]byte(newJson), obj2)
+	c.Check(err, gc.IsNil)
+	c.Check(reflect.DeepEqual(obj1, obj2))
+}
+
 func (s *ApiSuite) TestGetGroup(c *gc.C) {
-	s.setResponse("/groups/test/123", `
-{
+	resJson :=
+		`{
   "id": "wa1-0001",
   "name": "Web Applications",
   "description": "public facing web apps",
@@ -141,12 +155,10 @@ func (s *ApiSuite) TestGetGroup(c *gc.C) {
       "id": "WA1ACCTPRE7202"
     }
   ]
-}`)
+}`
+	s.setResponse("groups/test/123", resJson)
 
 	res, err := s.client.GetGroup("123")
 	c.Check(err, gc.IsNil)
-	c.Check(res.Id, gc.Equals, "wa1-0001")
-	c.Check(res.Name, gc.Equals, "Web Applications")
-	c.Check(res.Description, gc.Equals, "public facing web apps")
-
+	s.Check(c, resJson, res)
 }

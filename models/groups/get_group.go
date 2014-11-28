@@ -6,15 +6,15 @@ import (
 
 type GetGroupRes struct {
 	models.ResModelBase
-	Id          string
-	Name        string
-	Description string
-	Type        string
-	Status      string
-	ServerCount int
-	Limits      GroupLimits
-	Groups      []GetGroupRes
-	Links       []models.Link
+	Id           string
+	Name         string
+	Description  string
+	Type         string
+	Status       string
+	ServersCount int
+	Limits       GroupLimits
+	Groups       []GetGroupRes
+	Links        []models.Link
 }
 
 type GroupLimits struct {

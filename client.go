@@ -2,6 +2,7 @@ package centurylink_sdk
 
 import (
 	"fmt"
+	"io/ioutil"
 	"time"
 
 	"github.com/s-matyukevich/centurylink_sdk/models"
@@ -11,7 +12,6 @@ import (
 	"github.com/s-matyukevich/centurylink_sdk/models/queue"
 	"github.com/s-matyukevich/centurylink_sdk/models/servers"
 	"log"
-	"os"
 )
 
 type client struct {
@@ -21,16 +21,20 @@ type client struct {
 
 func NewClient() *client {
 	return &client{
-		logger: log.New(os.Stdout, "", log.LstdFlags),
+		logger: getDefaultLogger(),
 	}
 }
 
 func NewClientInitialized(accountAlias string, bearerToken string) *client {
-	logger := log.New(os.Stdout, "", log.LstdFlags)
+	logger := getDefaultLogger()
 	return &client{
 		logger:     logger,
 		connection: newConnectionRaw(accountAlias, bearerToken, logger),
 	}
+}
+
+func getDefaultLogger() *log.Logger {
+	return log.New(ioutil.Discard, "", log.LstdFlags)
 }
 
 func (cl *client) Connect(username string, password string) (err error) {
@@ -57,13 +61,12 @@ func (cl *client) GetDatacenterDeploymentCapabilities(datacenter string) (res *d
 }
 
 func (cl *client) GetDatacenterGroup(datacenter string, groupLinks bool) (res *datacenters.GetDatacenterGroupRes, err error) {
-	res = &datacenters.GetDatacenterGroupRes{}
-	err = cl.executeRequest("GET", fmt.Sprintf("datacenters/{accountAlias}/%s?groupLinks=%t", datacenter, groupLinks), nil, res)
+	err = cl.executeRequest("GET", fmt.Sprintf("datacenters/{accountAlias}/%s?groupLinks=%t", datacenter, groupLinks), nil, &res)
 	return
 }
 
 func (cl *client) GetDatacenterList() (res []datacenters.DatacenterListRes, err error) {
-	err = cl.executeRequest("GET", "datacenters/{accountAlias}", nil, res)
+	err = cl.executeRequest("GET", "datacenters/{accountAlias}", nil, &res)
 	return
 }
 

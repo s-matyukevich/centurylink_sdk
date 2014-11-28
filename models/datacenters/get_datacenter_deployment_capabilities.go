@@ -6,10 +6,10 @@ import (
 
 type GetDatacenterDeploymentCapabilitiesRes struct {
 	models.ResModelBase
-	supportsPremiumStorag      bool
-	supportsSharedLoadBalancer bool
-	deployableNetworks         []DeployableNetworks
-	templates                  []Templates
+	SupportsPremiumStorage     bool
+	SupportsSharedLoadBalancer bool
+	DeployableNetworks         []DeployableNetworks
+	Templates                  []Templates
 }
 
 type DeployableNetworks struct {

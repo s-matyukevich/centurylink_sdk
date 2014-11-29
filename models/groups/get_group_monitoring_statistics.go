@@ -1,12 +1,10 @@
 package groups
 
 import (
-	"github.com/s-matyukevich/centurylink_sdk/models"
 	"time"
 )
 
-type GroupMonitoringStatisticsRes struct {
-	models.ResModelBase
+type GetGroupMonitoringStatisticsRes struct {
 	Name  string
 	Stats []StatsDef
 }

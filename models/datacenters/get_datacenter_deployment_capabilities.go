@@ -1,11 +1,6 @@
 package datacenters
 
-import (
-	"github.com/s-matyukevich/centurylink_sdk/models"
-)
-
 type GetDatacenterDeploymentCapabilitiesRes struct {
-	models.ResModelBase
 	SupportsPremiumStorage     bool
 	SupportsSharedLoadBalancer bool
 	DeployableNetworks         []DeployableNetworks

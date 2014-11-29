@@ -1,12 +1,10 @@
 package groups
 
 import (
-	"github.com/s-matyukevich/centurylink_sdk/models"
 	"time"
 )
 
-type GroupBilingDetailsRes struct {
-	models.ResModelBase
+type GetGroupBilingDetailsRes struct {
 	Date   time.Time
 	Groups []GroupDef
 }

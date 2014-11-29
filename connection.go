@@ -10,6 +10,7 @@ import (
 	"net/http/httputil"
 	"strings"
 
+	"github.com/s-matyukevich/centurylink_sdk/models"
 	"github.com/s-matyukevich/centurylink_sdk/models/authentication"
 )
 
@@ -95,5 +96,16 @@ func (cn *connection) processResponse(res *http.Response, resModel interface{}) 
 	}
 	decoder := json.NewDecoder(res.Body)
 	err = decoder.Decode(resModel)
+	if err != nil {
+		return
+	}
+	if linkModel := resModel.(models.LinkModel); linkModel != nil {
+		linkModel.SetConnection(cn)
+	}
+	if array := resModel.([]models.LinkModel); array != nil {
+		for _, item := range array {
+			item.SetConnection(cn)
+		}
+	}
 	return err
 }

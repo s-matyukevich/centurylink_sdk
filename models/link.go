@@ -5,4 +5,5 @@ type Link struct {
 	Href string
 	Id   string
 	Name string
+	Verb string
 }

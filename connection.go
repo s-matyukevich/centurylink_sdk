@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httputil"
+	"reflect"
 	"strings"
 
 	"github.com/s-matyukevich/centurylink_sdk/models"
@@ -99,12 +100,17 @@ func (cn *connection) processResponse(res *http.Response, resModel interface{}) 
 	if err != nil {
 		return
 	}
-	if linkModel := resModel.(models.LinkModel); linkModel != nil {
+	if linkModel, ok := resModel.(models.LinkModel); ok {
 		linkModel.SetConnection(cn)
 	}
-	if array := resModel.([]models.LinkModel); array != nil {
-		for _, item := range array {
-			item.SetConnection(cn)
+	if reflect.TypeOf(resModel).Elem().Kind() == reflect.Slice {
+		s := reflect.ValueOf(resModel).Elem()
+
+		for i := 0; i < s.Len(); i++ {
+			item := s.Index(i).Interface()
+			if linkModel, ok := item.(models.LinkModel); ok {
+				linkModel.SetConnection(cn)
+			}
 		}
 	}
 	return err

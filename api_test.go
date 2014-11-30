@@ -6,7 +6,6 @@ import (
 	gc "gopkg.in/check.v1"
 	"net/http"
 	"net/http/httptest"
-	"sort"
 	"strconv"
 	"testing"
 	"unicode"
@@ -48,23 +47,13 @@ func (s *ApiSuite) setResponse(url string, resBody []byte) {
 	})
 }
 
-type sorter struct {
-	array []interface{}
-}
-
-func (s *sorter) Len() int {
-	return len(s.array)
-}
-
-func (s *sorter) Swap(i, j int) {
-	s.array[i], s.array[j] = s.array[j], s.array[i]
-}
-
-func (s *sorter) Less(i, j int) bool {
-	return fmt.Sprintf("%v", s.array[i]) < fmt.Sprintf("%v", s.array[j])
-}
-
 func (s *ApiSuite) DeepCompareObjects(prefix string, obj1 interface{}, obj2 interface{}) error {
+	if obj1 == nil && obj2 == nil {
+		return nil
+	}
+	if obj1 == nil || obj2 == nil {
+		return fmt.Errorf("Mistmatch in property %s. Values: %v %v", prefix, obj1, obj2)
+	}
 	switch obj1.(type) {
 	case string, float64, bool:
 		if obj1 != obj2 {
@@ -80,10 +69,6 @@ func (s *ApiSuite) DeepCompareObjects(prefix string, obj1 interface{}, obj2 inte
 		if len(array1) != len(array2) {
 			return fmt.Errorf("Different array length for property %s - %b %b. Values %v %v", prefix, len(array1), len(array2), obj1, obj2)
 		}
-		sorter1 := &sorter{array: array1}
-		sorter2 := &sorter{array: array2}
-		sort.Sort(sorter1)
-		sort.Sort(sorter2)
 		for i := 0; i < len(array1); i++ {
 			res := s.DeepCompareObjects(prefix+"["+strconv.Itoa(i)+"]", array1[i], array2[i])
 			if res != nil {
@@ -121,6 +106,7 @@ func (s *ApiSuite) Check(c *gc.C, js []byte, obj interface{}) {
 	//check two maps dor deep equality and get user friendly error message
 	err = s.DeepCompareObjects("", obj1, obj2)
 	c.Check(err, gc.IsNil)
+	//c.Check(obj1, gc.DeepEquals, obj2)
 }
 
 func (s *ApiSuite) TestGetDatacenterDeploymentCapabilities(c *gc.C) {

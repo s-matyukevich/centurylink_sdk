@@ -14,20 +14,20 @@ import (
 	"log"
 )
 
-type client struct {
+type Client struct {
 	connection *connection
 	logger     *log.Logger
 }
 
-func NewClient() *client {
-	return &client{
+func NewClient() *Client {
+	return &Client{
 		logger: getDefaultLogger(),
 	}
 }
 
-func NewClientInitialized(accountAlias string, bearerToken string) *client {
+func NewClientInitialized(accountAlias string, bearerToken string) *Client {
 	logger := getDefaultLogger()
-	return &client{
+	return &Client{
 		logger:     logger,
 		connection: newConnectionRaw(accountAlias, bearerToken, logger),
 	}
@@ -37,12 +37,12 @@ func getDefaultLogger() *log.Logger {
 	return log.New(ioutil.Discard, "", log.LstdFlags)
 }
 
-func (cl *client) Connect(username string, password string) (err error) {
+func (cl *Client) Connect(username string, password string) (err error) {
 	cl.connection, err = newConnection(username, password, cl.logger)
 	return
 }
 
-func (cl *client) SetLogger(logger *log.Logger) (err error) {
+func (cl *Client) SetLogger(logger *log.Logger) (err error) {
 	if logger == nil {
 		err = fmt.Errorf("Logger must not be nil.")
 		return
@@ -54,70 +54,70 @@ func (cl *client) SetLogger(logger *log.Logger) (err error) {
 	return
 }
 
-func (cl *client) GetDatacenterDeploymentCapabilities(datacenter string) (res *datacenters.GetDatacenterDeploymentCapabilitiesRes, err error) {
+func (cl *Client) GetDatacenterDeploymentCapabilities(datacenter string) (res *datacenters.GetDatacenterDeploymentCapabilitiesRes, err error) {
 	res = &datacenters.GetDatacenterDeploymentCapabilitiesRes{}
 	err = cl.executeRequest("GET", fmt.Sprintf("datacenters/{accountAlias}/%s/deploymentCapabilities", datacenter), nil, res)
 	return
 }
 
-func (cl *client) GetDatacenterGroup(datacenter string, groupLinks bool) (res *datacenters.GetDatacenterGroupRes, err error) {
+func (cl *Client) GetDatacenterGroup(datacenter string, groupLinks bool) (res *datacenters.GetDatacenterGroupRes, err error) {
 	res = &datacenters.GetDatacenterGroupRes{}
 	err = cl.executeRequest("GET", fmt.Sprintf("datacenters/{accountAlias}/%s?groupLinks=%t", datacenter, groupLinks), nil, &res)
 	return
 }
 
-func (cl *client) GetDatacenterList() (res []*datacenters.GetDatacenterListRes, err error) {
+func (cl *Client) GetDatacenterList() (res []*datacenters.GetDatacenterListRes, err error) {
 	err = cl.executeRequest("GET", "datacenters/{accountAlias}", nil, &res)
 	return
 }
 
-func (cl *client) GetStatus(statusId string) (res *queue.GetStatusRes, err error) {
+func (cl *Client) GetStatus(statusId string) (res *queue.GetStatusRes, err error) {
 	res = &queue.GetStatusRes{}
 	err = cl.executeRequest("GET", fmt.Sprintf("operations/{acctAlias}/status/%s", statusId), nil, res)
 	return
 }
 
-func (cl *client) DeleteAntiAfinityPolicy(policyId string) (err error) {
+func (cl *Client) DeleteAntiAfinityPolicy(policyId string) (err error) {
 	err = cl.executeRequest("DELETE", fmt.Sprintf("antiAffinityPolicies/{accountAlias}/%S", policyId), nil, nil)
 	return
 }
 
-func (cl *client) UpdateAntiAfinityPolicy(policyId string, req *account.UpdateAntiAfinityPolicyReq) (res *account.AntiAfinityPolicyRes, err error) {
+func (cl *Client) UpdateAntiAfinityPolicy(policyId string, req *account.UpdateAntiAfinityPolicyReq) (res *account.AntiAfinityPolicyRes, err error) {
 	res = &account.AntiAfinityPolicyRes{}
 	err = cl.executeRequest("PUT", fmt.Sprintf("antiAffinityPolicies/{accountAlias}/%S", policyId), req, res)
 	return
 }
 
-func (cl *client) CreateAntiAfinityPolicy(policyId string, req *account.CreateAntiAfinityPolicyReq) (res *account.AntiAfinityPolicyRes, err error) {
+func (cl *Client) CreateAntiAfinityPolicy(policyId string, req *account.CreateAntiAfinityPolicyReq) (res *account.AntiAfinityPolicyRes, err error) {
 	res = &account.AntiAfinityPolicyRes{}
 	err = cl.executeRequest("PUT", fmt.Sprintf("antiAffinityPolicies/{accountAlias}/%S", policyId), req, res)
 	return
 }
 
-func (cl *client) GetAntiAfinityPolicy(policyId string) (res *account.AntiAfinityPolicyRes, err error) {
+func (cl *Client) GetAntiAfinityPolicy(policyId string) (res *account.AntiAfinityPolicyRes, err error) {
 	res = &account.AntiAfinityPolicyRes{}
 	err = cl.executeRequest("PUT", fmt.Sprintf("antiAffinityPolicies/{accountAlias}/%S", policyId), nil, res)
 	return
 }
 
-func (cl *client) GetAntiAfinityPolicies() (res []*account.AntiAfinityPolicyRes, err error) {
+func (cl *Client) GetAntiAfinityPolicies() (res []*account.AntiAfinityPolicyRes, err error) {
 	err = cl.executeRequest("PUT", "antiAffinityPolicies/{accountAlias}/%S", nil, res)
 	return
 }
 
-func (cl *client) GetGroup(groupId string) (res *groups.GetGroupRes, err error) {
+func (cl *Client) GetGroup(groupId string) (res *groups.GetGroupRes, err error) {
 	res = &groups.GetGroupRes{}
 	err = cl.executeRequest("GET", fmt.Sprintf("groups/{accountAlias}/%s", groupId), nil, res)
 	return
 }
 
-func (cl *client) GetGroupBiling(groupId string) (res *groups.GetGroupBilingDetailsRes, err error) {
+func (cl *Client) GetGroupBiling(groupId string) (res *groups.GetGroupBilingDetailsRes, err error) {
 	res = &groups.GetGroupBilingDetailsRes{}
 	err = cl.executeRequest("GET", fmt.Sprintf("groups/{accountAlias}/%s/biling", groupId), nil, res)
 	return
 }
 
-func (cl *client) GetGroupMonitoringStatistics(groupId string, start *time.Time, end *time.Time, sampleInterval *time.Duration, queryType *string) (res *groups.GetGroupMonitoringStatisticsRes, err error) {
+func (cl *Client) GetGroupMonitoringStatistics(groupId string, start *time.Time, end *time.Time, sampleInterval *time.Duration, queryType *string) (res *groups.GetGroupMonitoringStatisticsRes, err error) {
 	res = &groups.GetGroupMonitoringStatisticsRes{}
 	params := make(map[string]string)
 	url := fmt.Sprintf("groups/{accountAlias}/%s/biling", groupId)
@@ -144,115 +144,115 @@ func (cl *client) GetGroupMonitoringStatistics(groupId string, start *time.Time,
 	return
 }
 
-func (cl *client) GetServer(serverId string) (res *servers.GetServerRes, err error) {
+func (cl *Client) GetServer(serverId string) (res *servers.GetServerRes, err error) {
 	res = &servers.GetServerRes{}
 	err = cl.executeRequest("GET", fmt.Sprintf("servers/{accountAlias}/%s", serverId), nil, res)
 	return
 }
 
-func (cl *client) PauseServer(req *servers.ServerReq) (res *servers.ServerRes, err error) {
+func (cl *Client) PauseServer(req *servers.ServerReq) (res *servers.ServerRes, err error) {
 	res = &servers.ServerRes{}
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/pause", req, res)
 	return
 }
 
-func (cl *client) DeleteServer(serverId string) (res *servers.ServerRes, err error) {
+func (cl *Client) DeleteServer(serverId string) (res *servers.ServerRes, err error) {
 	res = &servers.ServerRes{}
 	err = cl.executeRequest("DELETE", fmt.Sprintf("servers/{accountAlias}/%s", serverId), nil, res)
 	return
 }
 
-func (cl *client) UpdatePublicIpAddress(serverId string, publicIp string, req *servers.UpdatePublicIpAddressReq) (res *models.Link, err error) {
+func (cl *Client) UpdatePublicIpAddress(serverId string, publicIp string, req *servers.UpdatePublicIpAddressReq) (res *models.Link, err error) {
 	res = &models.Link{}
 	err = cl.executeRequest("PUT", fmt.Sprintf("servers/{accountAlias}/%s}/publicIPAddresses/%s", serverId, publicIp), req, res)
 	return
 }
 
-func (cl *client) RemovePublicIpAddress(serverId string, publicIp string) (res *models.Link, err error) {
+func (cl *Client) RemovePublicIpAddress(serverId string, publicIp string) (res *models.Link, err error) {
 	res = &models.Link{}
 	err = cl.executeRequest("DELETE", fmt.Sprintf("servers/{accountAlias}/%s}/publicIPAddresses/%s", serverId, publicIp), nil, res)
 	return
 }
 
-func (cl *client) GetPublicIpAddress(serverId string, publicIp string) (res *servers.GetPublicIpAddressRes, err error) {
+func (cl *Client) GetPublicIpAddress(serverId string, publicIp string) (res *servers.GetPublicIpAddressRes, err error) {
 	res = &servers.GetPublicIpAddressRes{}
 	err = cl.executeRequest("PUT", fmt.Sprintf("servers/{accountAlias}/%s}/publicIPAddresses/%s", serverId, publicIp), nil, res)
 	return
 }
 
-func (cl *client) AddPublicIpAddress(serverId string, publicIp string, req *servers.AddPublicIpAddressReq) (res *models.Link, err error) {
+func (cl *Client) AddPublicIpAddress(serverId string, publicIp string, req *servers.AddPublicIpAddressReq) (res *models.Link, err error) {
 	res = &models.Link{}
 	err = cl.executeRequest("POST", fmt.Sprintf("servers/{accountAlias}/%s}/publicIPAddresses", serverId, publicIp), req, res)
 	return
 }
 
-func (cl *client) ExecutePackage(req *servers.ExecutePackageReq) (res *servers.ServerRes, err error) {
+func (cl *Client) ExecutePackage(req *servers.ExecutePackageReq) (res *servers.ServerRes, err error) {
 	res = &servers.ServerRes{}
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/executePackage", req, res)
 	return
 }
 
-func (cl *client) SetMaintenanceMode(req *servers.SetMaintenanceModeReq) (res *servers.ServerRes, err error) {
+func (cl *Client) SetMaintenanceMode(req *servers.SetMaintenanceModeReq) (res *servers.ServerRes, err error) {
 	res = &servers.ServerRes{}
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/setMaintenance", req, res)
 	return
 }
 
-func (cl *client) StartMaintenanceMode(req *servers.ServerReq) (res *servers.ServerRes, err error) {
+func (cl *Client) StartMaintenanceMode(req *servers.ServerReq) (res *servers.ServerRes, err error) {
 	res = &servers.ServerRes{}
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/startMaintenance", req, res)
 	return
 }
 
-func (cl *client) StopMaintenanceMode(req *servers.ServerReq) (res *servers.ServerRes, err error) {
+func (cl *Client) StopMaintenanceMode(req *servers.ServerReq) (res *servers.ServerRes, err error) {
 	res = &servers.ServerRes{}
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/stopMaintenance", req, res)
 	return
 }
 
-func (cl *client) CreateServer(req *servers.CreateServerReq) (res *servers.ServerRes, err error) {
+func (cl *Client) CreateServer(req *servers.CreateServerReq) (res *servers.ServerRes, err error) {
 	res = &servers.ServerRes{}
 	err = cl.executeRequest("POST", "servers/{accountAlias}", req, res)
 	return
 }
 
-func (cl *client) CreateSnapshot(req *servers.CreateSnapshotReq) (res *servers.ServerRes, err error) {
+func (cl *Client) CreateSnapshot(req *servers.CreateSnapshotReq) (res *servers.ServerRes, err error) {
 	res = &servers.ServerRes{}
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/createSnapshot", req, res)
 	return
 }
 
-func (cl *client) ShutDownServer(req *servers.ServerReq) (res *servers.ServerRes, err error) {
+func (cl *Client) ShutDownServer(req *servers.ServerReq) (res *servers.ServerRes, err error) {
 	res = &servers.ServerRes{}
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/shutDown", req, res)
 	return
 }
 
-func (cl *client) RebootServer(req *servers.ServerReq) (res *servers.ServerRes, err error) {
+func (cl *Client) RebootServer(req *servers.ServerReq) (res *servers.ServerRes, err error) {
 	res = &servers.ServerRes{}
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/reboot", req, res)
 	return
 }
 
-func (cl *client) ResetServer(req *servers.ServerReq) (res *servers.ServerRes, err error) {
+func (cl *Client) ResetServer(req *servers.ServerReq) (res *servers.ServerRes, err error) {
 	res = &servers.ServerRes{}
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/reset", req, res)
 	return
 }
 
-func (cl *client) PowerOnServer(req *servers.ServerReq) (res *servers.ServerRes, err error) {
+func (cl *Client) PowerOnServer(req *servers.ServerReq) (res *servers.ServerRes, err error) {
 	res = &servers.ServerRes{}
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/powerOn", req, res)
 	return
 }
 
-func (cl *client) PowerOffServer(req *servers.ServerReq) (res *servers.ServerRes, err error) {
+func (cl *Client) PowerOffServer(req *servers.ServerReq) (res *servers.ServerRes, err error) {
 	res = &servers.ServerRes{}
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/powerOff", req, res)
 	return
 }
 
-func (cl *client) executeRequest(verb string, url string, reqModel interface{}, resModel interface{}) (err error) {
+func (cl *Client) executeRequest(verb string, url string, reqModel interface{}, resModel interface{}) (err error) {
 	cl.logger.Printf("Sending request to API endpoint: %q, parameters: %#v", url, reqModel)
 	if cl.connection == nil {
 		err = fmt.Errorf("The client is not initialized. You should call Connect method first.")

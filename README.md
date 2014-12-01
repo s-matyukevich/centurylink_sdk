@@ -24,7 +24,7 @@ This command will checkout the source of `centurylink_sdk` and inspect it for an
 
 ## Using CenturyLink SDK
 
-The following program demonstrate the basic usage of `centurylink_cli`
+The following program demonstrate the basic usage of `centurylink_sdk`
 
 	package main
 
@@ -42,17 +42,17 @@ The following program demonstrate the basic usage of `centurylink_cli`
 	}
 Basically, the process of working with `centurylink_sdk` is the following
 
-1. **Import `centurylink_sdk` package**  
+**Import `centurylink_sdk` package**  
 	
 	import (
 		sdk "github.com/s-matyukevich/centurylink_sdk"
 	)
 
-2. **Create new client.** 
+**Create new client.** 
 
 	client := sdk.NewClient()
 
-3. **Connect the client**
+**Connect the client**
 
 	err := client.Connect("username", "password")
 
@@ -61,10 +61,10 @@ Alternatively, if you already have you bearer token, you can create client, that
 
 	client = sdk.NewClientInitialized("accountAlias", "bearerToken")
 
-4. **Start sending requests to API**
+**Start sending requests to API**
 
 For each documented method in CenturyLink API v2.0 we have corresponding method in `client` struct. This methods returns strongly typed objects, that are created by unmarshalling json responses. 
-Also, if response contains links collection, for each link in response class separate method is created, that, when executed, sends request to link href and parse response 
+Also, if response contains links collection, for each link in response class separate method is created, that, when executed, sends request to link href and parse response. 
 Another important feature, you should be aware of, is Logging. by default `centurylink_sdk` skips all logs, but you can set logger to client at any time. The following example shows how to configure client to set logs to standard output.
 
 	client.SetLogger(log.New(os.Stdout, "", log.LstdFlags))

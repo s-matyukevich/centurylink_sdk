@@ -111,9 +111,9 @@ func (cl *Client) GetGroup(groupId string) (res *groups.GetGroupRes, err error) 
 	return
 }
 
-func (cl *Client) GetGroupBiling(groupId string) (res *groups.GetGroupBilingDetailsRes, err error) {
-	res = &groups.GetGroupBilingDetailsRes{}
-	err = cl.executeRequest("GET", fmt.Sprintf("groups/{accountAlias}/%s/biling", groupId), nil, res)
+func (cl *Client) GetGroupBilling(groupId string) (res *groups.GetGroupBillingDetailsRes, err error) {
+	res = &groups.GetGroupBillingDetailsRes{}
+	err = cl.executeRequest("GET", fmt.Sprintf("groups/{accountAlias}/%s/billing", groupId), nil, res)
 	return
 }
 

@@ -44,7 +44,7 @@ func (r *GetGroupRes) Self() (res *GetGroupRes, err error) {
 	return
 }
 
-func (r *GetGroupRes) Billing() (res *GetGroupBilingDetailsRes, err error) {
+func (r *GetGroupRes) Billing() (res *GetGroupBillingDetailsRes, err error) {
 	err = models.ResolveLink(r, "billing", res)
 	return
 }

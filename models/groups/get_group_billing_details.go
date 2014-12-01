@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-type GetGroupBilingDetailsRes struct {
+type GetGroupBillingDetailsRes struct {
 	Date   time.Time
 	Groups []GroupDef
 }

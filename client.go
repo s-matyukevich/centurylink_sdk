@@ -117,10 +117,10 @@ func (cl *Client) GetGroupBiling(groupId string) (res *groups.GetGroupBilingDeta
 	return
 }
 
-func (cl *Client) GetGroupMonitoringStatistics(groupId string, start *time.Time, end *time.Time, sampleInterval *time.Duration, queryType *string) (res *groups.GetGroupMonitoringStatisticsRes, err error) {
+func (cl *Client) GetGroupMonitoringStatistics(groupId string, start *time.Time, end *time.Time, sampleInterval *time.Duration, queryType string) (res *groups.GetGroupMonitoringStatisticsRes, err error) {
 	res = &groups.GetGroupMonitoringStatisticsRes{}
 	params := make(map[string]string)
-	url := fmt.Sprintf("groups/{accountAlias}/%s/biling", groupId)
+	url := fmt.Sprintf("groups/{accountAlias}/%s/statistics", groupId)
 	if start != nil {
 		params["start"] = start.Format("2006-01-02")
 	}
@@ -130,8 +130,8 @@ func (cl *Client) GetGroupMonitoringStatistics(groupId string, start *time.Time,
 	if sampleInterval != nil {
 		params["sampleInterval"] = fmt.Sprintf("%d:%d:%d", sampleInterval.Hours(), sampleInterval.Minutes(), sampleInterval.Seconds())
 	}
-	if queryType != nil {
-		params["queryType"] = *queryType
+	if queryType != "" {
+		params["queryType"] = queryType
 	}
 	if len(params) > 0 {
 		url += "?"

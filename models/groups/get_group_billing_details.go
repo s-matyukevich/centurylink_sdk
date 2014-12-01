@@ -6,12 +6,12 @@ import (
 
 type GetGroupBillingDetailsRes struct {
 	Date   time.Time
-	Groups []GroupDef
+	Groups map[string]GroupDef
 }
 
 type GroupDef struct {
 	Name    string
-	Servers []ServerDef
+	Servers map[string]ServerDef
 }
 
 type ServerDef struct {

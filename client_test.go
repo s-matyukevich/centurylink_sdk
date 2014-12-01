@@ -17,7 +17,7 @@ func (s *ClientSuite) TestNewClient(c *gc.C) {
 }
 
 func (s *ClientSuite) TestSetLogger(c *gc.C) {
-	client := &client{}
+	client := &Client{}
 
 	err := client.SetLogger(nil)
 	c.Check(err, gc.ErrorMatches, "Logger must not be nil.")

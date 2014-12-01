@@ -16,7 +16,7 @@ import (
 func Test(t *testing.T) { gc.TestingT(t) }
 
 type ApiSuite struct {
-	client   *client
+	client   *Client
 	serveMux *http.ServeMux
 }
 
@@ -84,7 +84,13 @@ func (s *ApiSuite) DeepCompareObjects(prefix string, obj1 interface{}, obj2 inte
 			r := []rune(key)
 			r[0] = unicode.ToUpper(r[0])
 			key2 := string(r)
-			res := s.DeepCompareObjects(prefix+"."+key, value, map2[key2])
+			val2 := map2[key2]
+			//this is for case when response object by itself contains a map
+			//then, keys in this map are not uppercased
+			if val2 == nil {
+				val2 = map2[key]
+			}
+			res := s.DeepCompareObjects(prefix+"."+key, value, val2)
 			if res != nil {
 				return res
 			}
@@ -494,6 +500,42 @@ func (s *ApiSuite) TestGetGroup(c *gc.C) {
 	s.setResponse("/groups/ALIAS/wa1-5030", resJson)
 
 	res, err := s.client.GetGroup("wa1-5030")
+	c.Check(err, gc.IsNil)
+	s.Check(c, resJson, res)
+}
+
+func (s *ApiSuite) TestGetGroupBilling(c *gc.C) {
+	resJson := []byte(`{
+  "date": "2014-04-07T21:33:51.9743015Z",
+  "groups": {
+    "wa1-0003": {
+      "name": "Web Applications",
+      "servers": {
+        "wa1acctserv7101": {
+          "templateCost": 0.0,
+          "archiveCost": 0.0,
+          "monthlyEstimate": 77.76,
+          "monthToDate": 17.93,
+          "currentHour": 0.108
+        },
+        "wa1acctserv7202": {
+          "templateCost": 0.0,
+          "archiveCost": 0.0,
+          "monthlyEstimate": 156.96,
+          "monthToDate": 36.19,
+          "currentHour": 0.218
+        }
+      }
+    },
+    "wa1-0004": {
+      "name": "Training Environment",
+      "servers": {}
+    }
+  }
+}`)
+	s.setResponse("/groups/ALIAS/wa1-5030/billing", resJson)
+
+	res, err := s.client.GetGroupBillingDetails("wa1-5030")
 	c.Check(err, gc.IsNil)
 	s.Check(c, resJson, res)
 }

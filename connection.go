@@ -3,7 +3,6 @@ package centurylink_sdk
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -11,6 +10,7 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/s-matyukevich/centurylink_sdk/errors"
 	"github.com/s-matyukevich/centurylink_sdk/models"
 	"github.com/s-matyukevich/centurylink_sdk/models/authentication"
 )
@@ -92,11 +92,13 @@ func (cn *connection) processResponse(res *http.Response, resModel interface{}) 
 	switch res.StatusCode {
 	case 200, 201, 202:
 	default:
-		err = fmt.Errorf("Error occured while sending request to API. Status code: %d", res.StatusCode)
-		return
+		cn.DecodeResponse(res, resModel)
+		return &errors.ApiError{
+			StatusCode:  res.StatusCode,
+			ApiResponse: resModel,
+		}
 	}
-	decoder := json.NewDecoder(res.Body)
-	err = decoder.Decode(resModel)
+	err = cn.DecodeResponse(res, resModel)
 	if err != nil {
 		return
 	}
@@ -114,4 +116,13 @@ func (cn *connection) processResponse(res *http.Response, resModel interface{}) 
 		}
 	}
 	return err
+}
+
+func (cn *connection) DecodeResponse(res *http.Response, resModel interface{}) (err error) {
+	if resModel == nil {
+		return
+	}
+	decoder := json.NewDecoder(res.Body)
+	err = decoder.Decode(resModel)
+	return
 }

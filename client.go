@@ -101,7 +101,7 @@ func (cl *Client) GetAntiAfinityPolicy(policyId string) (res *account.AntiAfinit
 }
 
 func (cl *Client) GetAntiAfinityPolicies() (res []*account.AntiAfinityPolicyRes, err error) {
-	err = cl.executeRequest("PUT", "antiAffinityPolicies/{accountAlias}/%S", nil, res)
+	err = cl.executeRequest("PUT", "antiAffinityPolicies/{accountAlias}/%S", nil, &res)
 	return
 }
 
@@ -151,12 +151,12 @@ func (cl *Client) GetServer(serverId string) (res *servers.GetServerRes, err err
 }
 
 func (cl *Client) PauseServer(req []string) (res []servers.ServerRes, err error) {
-	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/pause", req, res)
+	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/pause", req, &res)
 	return
 }
 
 func (cl *Client) DeleteServer(serverId string) (res []servers.ServerRes, err error) {
-	err = cl.executeRequest("DELETE", fmt.Sprintf("servers/{accountAlias}/%s", serverId), nil, res)
+	err = cl.executeRequest("DELETE", fmt.Sprintf("servers/{accountAlias}/%s", serverId), nil, &res)
 	return
 }
 
@@ -185,57 +185,57 @@ func (cl *Client) AddPublicIpAddress(serverId string, publicIp string, req *serv
 }
 
 func (cl *Client) ExecutePackage(req *servers.ExecutePackageReq) (res []servers.ServerRes, err error) {
-	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/executePackage", req, res)
+	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/executePackage", req, &res)
 	return
 }
 
 func (cl *Client) SetMaintenanceMode(req *servers.SetMaintenanceModeReq) (res []servers.ServerRes, err error) {
-	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/setMaintenance", req, res)
+	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/setMaintenance", req, &res)
 	return
 }
 
 func (cl *Client) StartMaintenanceMode(req []string) (res []servers.ServerRes, err error) {
-	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/startMaintenance", req, res)
+	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/startMaintenance", req, &res)
 	return
 }
 
 func (cl *Client) StopMaintenanceMode(req []string) (res []servers.ServerRes, err error) {
-	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/stopMaintenance", req, res)
+	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/stopMaintenance", req, &res)
 	return
 }
 
 func (cl *Client) CreateServer(req *servers.CreateServerReq) (res []servers.ServerRes, err error) {
-	err = cl.executeRequest("POST", "servers/{accountAlias}", req, res)
+	err = cl.executeRequest("POST", "servers/{accountAlias}", req, &res)
 	return
 }
 
 func (cl *Client) CreateSnapshot(req *servers.CreateSnapshotReq) (res []servers.ServerRes, err error) {
-	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/createSnapshot", req, res)
+	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/createSnapshot", req, &res)
 	return
 }
 
 func (cl *Client) ShutDownServer(req []string) (res []servers.ServerRes, err error) {
-	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/shutDown", req, res)
+	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/shutDown", req, &res)
 	return
 }
 
 func (cl *Client) RebootServer(req []string) (res []servers.ServerRes, err error) {
-	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/reboot", req, res)
+	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/reboot", req, &res)
 	return
 }
 
 func (cl *Client) ResetServer(req []string) (res []servers.ServerRes, err error) {
-	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/reset", req, res)
+	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/reset", req, &res)
 	return
 }
 
 func (cl *Client) PowerOnServer(req []string) (res []servers.ServerRes, err error) {
-	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/powerOn", req, res)
+	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/powerOn", req, &res)
 	return
 }
 
 func (cl *Client) PowerOffServer(req []string) (res []servers.ServerRes, err error) {
-	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/powerOff", req, res)
+	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/powerOff", req, &res)
 	return
 }
 

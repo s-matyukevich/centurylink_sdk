@@ -174,7 +174,7 @@ func (cl *Client) RemovePublicIpAddress(serverId string, publicIp string) (res *
 
 func (cl *Client) GetPublicIpAddress(serverId string, publicIp string) (res *servers.GetPublicIpAddressRes, err error) {
 	res = &servers.GetPublicIpAddressRes{}
-	err = cl.executeRequest("PUT", fmt.Sprintf("servers/{accountAlias}/%s}/publicIPAddresses/%s", serverId, publicIp), nil, res)
+	err = cl.executeRequest("GET", fmt.Sprintf("servers/{accountAlias}/%s}/publicIPAddresses/%s", serverId, publicIp), nil, res)
 	return
 }
 

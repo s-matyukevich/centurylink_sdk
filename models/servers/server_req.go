@@ -1,5 +1,3 @@
 package servers
 
-type ServerReq struct {
-	ServerIds []string
-}
+type ServerReq []string

@@ -24,7 +24,7 @@ type GetServerRes struct {
 }
 
 type DetailsDef struct {
-	ШpAddresses       []IpAddressDef
+	IpAddresses       []IpAddressDef
 	AlertPolicies     []AlertPolicyDef
 	Cpu               int
 	DiskCount         int

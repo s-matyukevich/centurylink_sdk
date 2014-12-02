@@ -168,19 +168,19 @@ func (cl *Client) UpdatePublicIpAddress(serverId string, publicIp string, req *s
 
 func (cl *Client) RemovePublicIpAddress(serverId string, publicIp string) (res *models.Link, err error) {
 	res = &models.Link{}
-	err = cl.executeRequest("DELETE", fmt.Sprintf("servers/{accountAlias}/%s}/publicIPAddresses/%s", serverId, publicIp), nil, res)
+	err = cl.executeRequest("DELETE", fmt.Sprintf("servers/{accountAlias}/%s/publicIPAddresses/%s", serverId, publicIp), nil, res)
 	return
 }
 
 func (cl *Client) GetPublicIpAddress(serverId string, publicIp string) (res *servers.GetPublicIpAddressRes, err error) {
 	res = &servers.GetPublicIpAddressRes{}
-	err = cl.executeRequest("GET", fmt.Sprintf("servers/{accountAlias}/%s}/publicIPAddresses/%s", serverId, publicIp), nil, res)
+	err = cl.executeRequest("GET", fmt.Sprintf("servers/{accountAlias}/%s/publicIPAddresses/%s", serverId, publicIp), nil, res)
 	return
 }
 
 func (cl *Client) AddPublicIpAddress(serverId string, publicIp string, req *servers.AddPublicIpAddressReq) (res *models.Link, err error) {
 	res = &models.Link{}
-	err = cl.executeRequest("POST", fmt.Sprintf("servers/{accountAlias}/%s}/publicIPAddresses", serverId, publicIp), req, res)
+	err = cl.executeRequest("POST", fmt.Sprintf("servers/{accountAlias}/%s/publicIPAddresses", serverId, publicIp), req, res)
 	return
 }
 

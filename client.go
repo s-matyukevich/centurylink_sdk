@@ -150,14 +150,12 @@ func (cl *Client) GetServer(serverId string) (res *servers.GetServerRes, err err
 	return
 }
 
-func (cl *Client) PauseServer(req *servers.ServerReq) (res *servers.ServerRes, err error) {
-	res = &servers.ServerRes{}
+func (cl *Client) PauseServer(req []string) (res []servers.ServerRes, err error) {
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/pause", req, res)
 	return
 }
 
-func (cl *Client) DeleteServer(serverId string) (res *servers.ServerRes, err error) {
-	res = &servers.ServerRes{}
+func (cl *Client) DeleteServer(serverId string) (res []servers.ServerRes, err error) {
 	err = cl.executeRequest("DELETE", fmt.Sprintf("servers/{accountAlias}/%s", serverId), nil, res)
 	return
 }
@@ -186,68 +184,57 @@ func (cl *Client) AddPublicIpAddress(serverId string, publicIp string, req *serv
 	return
 }
 
-func (cl *Client) ExecutePackage(req *servers.ExecutePackageReq) (res *servers.ServerRes, err error) {
-	res = &servers.ServerRes{}
+func (cl *Client) ExecutePackage(req *servers.ExecutePackageReq) (res []servers.ServerRes, err error) {
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/executePackage", req, res)
 	return
 }
 
-func (cl *Client) SetMaintenanceMode(req *servers.SetMaintenanceModeReq) (res *servers.ServerRes, err error) {
-	res = &servers.ServerRes{}
+func (cl *Client) SetMaintenanceMode(req *servers.SetMaintenanceModeReq) (res []servers.ServerRes, err error) {
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/setMaintenance", req, res)
 	return
 }
 
-func (cl *Client) StartMaintenanceMode(req *servers.ServerReq) (res *servers.ServerRes, err error) {
-	res = &servers.ServerRes{}
+func (cl *Client) StartMaintenanceMode(req []string) (res []servers.ServerRes, err error) {
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/startMaintenance", req, res)
 	return
 }
 
-func (cl *Client) StopMaintenanceMode(req *servers.ServerReq) (res *servers.ServerRes, err error) {
-	res = &servers.ServerRes{}
+func (cl *Client) StopMaintenanceMode(req []string) (res []servers.ServerRes, err error) {
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/stopMaintenance", req, res)
 	return
 }
 
-func (cl *Client) CreateServer(req *servers.CreateServerReq) (res *servers.ServerRes, err error) {
-	res = &servers.ServerRes{}
+func (cl *Client) CreateServer(req *servers.CreateServerReq) (res []servers.ServerRes, err error) {
 	err = cl.executeRequest("POST", "servers/{accountAlias}", req, res)
 	return
 }
 
-func (cl *Client) CreateSnapshot(req *servers.CreateSnapshotReq) (res *servers.ServerRes, err error) {
-	res = &servers.ServerRes{}
+func (cl *Client) CreateSnapshot(req *servers.CreateSnapshotReq) (res []servers.ServerRes, err error) {
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/createSnapshot", req, res)
 	return
 }
 
-func (cl *Client) ShutDownServer(req *servers.ServerReq) (res *servers.ServerRes, err error) {
-	res = &servers.ServerRes{}
+func (cl *Client) ShutDownServer(req []string) (res []servers.ServerRes, err error) {
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/shutDown", req, res)
 	return
 }
 
-func (cl *Client) RebootServer(req *servers.ServerReq) (res *servers.ServerRes, err error) {
-	res = &servers.ServerRes{}
+func (cl *Client) RebootServer(req []string) (res []servers.ServerRes, err error) {
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/reboot", req, res)
 	return
 }
 
-func (cl *Client) ResetServer(req *servers.ServerReq) (res *servers.ServerRes, err error) {
-	res = &servers.ServerRes{}
+func (cl *Client) ResetServer(req []string) (res []servers.ServerRes, err error) {
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/reset", req, res)
 	return
 }
 
-func (cl *Client) PowerOnServer(req *servers.ServerReq) (res *servers.ServerRes, err error) {
-	res = &servers.ServerRes{}
+func (cl *Client) PowerOnServer(req []string) (res []servers.ServerRes, err error) {
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/powerOn", req, res)
 	return
 }
 
-func (cl *Client) PowerOffServer(req *servers.ServerReq) (res *servers.ServerRes, err error) {
-	res = &servers.ServerRes{}
+func (cl *Client) PowerOffServer(req []string) (res []servers.ServerRes, err error) {
 	err = cl.executeRequest("POST", "operations/{accountAlias}/servers/powerOff", req, res)
 	return
 }

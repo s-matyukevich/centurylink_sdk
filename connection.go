@@ -92,7 +92,10 @@ func (cn *connection) processResponse(res *http.Response, resModel interface{}) 
 	switch res.StatusCode {
 	case 200, 201, 202:
 	default:
-		cn.DecodeResponse(res, resModel)
+		err := cn.DecodeResponse(res, resModel)
+		if err != nil {
+			cn.logger.Printf(err.Error())
+		}
 		return &errors.ApiError{
 			StatusCode:  res.StatusCode,
 			ApiResponse: resModel,

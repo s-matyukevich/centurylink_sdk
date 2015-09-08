@@ -37,7 +37,7 @@ func newConnection(username string, password string, logger *log.Logger) (cn *co
 	}
 	cn.bearerToken = loginRes.BearerToken
 	cn.accountAlias = loginRes.AccountAlias
-	cn.logger.Printf("Updateing connection. Bearer: %s, Alias: %s", cn.bearerToken, cn.accountAlias)
+	cn.logger.Printf("Updating connection. Bearer: %s, Alias: %s", cn.bearerToken, cn.accountAlias)
 	return
 }
 

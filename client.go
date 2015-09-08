@@ -73,34 +73,34 @@ func (cl *Client) GetDatacenterList() (res []*datacenters.GetDatacenterListRes, 
 
 func (cl *Client) GetStatus(statusId string) (res *queue.GetStatusRes, err error) {
 	res = &queue.GetStatusRes{}
-	err = cl.executeRequest("GET", fmt.Sprintf("operations/{acctAlias}/status/%s", statusId), nil, res)
+	err = cl.executeRequest("GET", fmt.Sprintf("operations/{accountAlias}/status/%s", statusId), nil, res)
 	return
 }
 
-func (cl *Client) DeleteAntiAfinityPolicy(policyId string) (err error) {
+func (cl *Client) DeleteAntiAffinityPolicy(policyId string) (err error) {
 	err = cl.executeRequest("DELETE", fmt.Sprintf("antiAffinityPolicies/{accountAlias}/%S", policyId), nil, nil)
 	return
 }
 
-func (cl *Client) UpdateAntiAfinityPolicy(policyId string, req *account.UpdateAntiAfinityPolicyReq) (res *account.AntiAfinityPolicyRes, err error) {
-	res = &account.AntiAfinityPolicyRes{}
+func (cl *Client) UpdateAntiAffinityPolicy(policyId string, req *account.UpdateAntiAffinityPolicyReq) (res *account.AntiAffinityPolicyRes, err error) {
+	res = &account.AntiAffinityPolicyRes{}
 	err = cl.executeRequest("PUT", fmt.Sprintf("antiAffinityPolicies/{accountAlias}/%S", policyId), req, res)
 	return
 }
 
-func (cl *Client) CreateAntiAfinityPolicy(policyId string, req *account.CreateAntiAfinityPolicyReq) (res *account.AntiAfinityPolicyRes, err error) {
-	res = &account.AntiAfinityPolicyRes{}
+func (cl *Client) CreateAntiAffinityPolicy(policyId string, req *account.CreateAntiAffinityPolicyReq) (res *account.AntiAffinityPolicyRes, err error) {
+	res = &account.AntiAffinityPolicyRes{}
 	err = cl.executeRequest("PUT", fmt.Sprintf("antiAffinityPolicies/{accountAlias}/%S", policyId), req, res)
 	return
 }
 
-func (cl *Client) GetAntiAfinityPolicy(policyId string) (res *account.AntiAfinityPolicyRes, err error) {
-	res = &account.AntiAfinityPolicyRes{}
+func (cl *Client) GetAntiAffinityPolicy(policyId string) (res *account.AntiAffinityPolicyRes, err error) {
+	res = &account.AntiAffinityPolicyRes{}
 	err = cl.executeRequest("PUT", fmt.Sprintf("antiAffinityPolicies/{accountAlias}/%S", policyId), nil, res)
 	return
 }
 
-func (cl *Client) GetAntiAfinityPolicies() (res []*account.AntiAfinityPolicyRes, err error) {
+func (cl *Client) GetAntiAffinityPolicies() (res []*account.AntiAffinityPolicyRes, err error) {
 	err = cl.executeRequest("PUT", "antiAffinityPolicies/{accountAlias}/%S", nil, &res)
 	return
 }

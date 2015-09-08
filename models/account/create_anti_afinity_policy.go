@@ -1,6 +1,6 @@
 package account
 
-type CreateAntiAfinityPolicyReq struct {
+type CreateAntiAffinityPolicyReq struct {
 	Name     string
 	Location string
 }

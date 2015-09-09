@@ -82,6 +82,6 @@ func (r *GetServerRes) SetConnection(connection base.Connection) {
 }
 
 func (r *GetServerRes) Self() (res *GetServerRes, err error) {
-	err = models.ResolveLink(r, "self", res)
+	err = models.ResolveLink(r, "self", "GET", res)
 	return
 }

@@ -27,11 +27,11 @@ func (r *GetDatacenterGroupRes) SetConnection(connection base.Connection) {
 }
 
 func (r *GetDatacenterGroupRes) Self() (res *GetDatacenterGroupRes, err error) {
-	err = models.ResolveLink(r, "self", res)
+	err = models.ResolveLink(r, "self", "GET", res)
 	return
 }
 
 func (r *GetDatacenterGroupRes) RootGroup() (res *GetDatacenterGroupRes, err error) {
-	err = models.ResolveLink(r, "group", res)
+	err = models.ResolveLink(r, "group", "GET", res)
 	return
 }

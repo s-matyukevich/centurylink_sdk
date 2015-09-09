@@ -29,6 +29,6 @@ func (r *ServerRes) SetConnection(connection base.Connection) {
 }
 
 func (r *ServerRes) Status() (res *queue.GetStatusRes, err error) {
-	err = models.ResolveLink(r, "status", res)
+	err = models.ResolveLink(r, "status", "GET", res)
 	return
 }

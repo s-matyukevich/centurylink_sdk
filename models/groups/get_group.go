@@ -40,21 +40,21 @@ func (r *GetGroupRes) SetConnection(connection base.Connection) {
 }
 
 func (r *GetGroupRes) Self() (res *GetGroupRes, err error) {
-	err = models.ResolveLink(r, "self", res)
+	err = models.ResolveLink(r, "self", "GET", res)
 	return
 }
 
 func (r *GetGroupRes) Billing() (res *GetGroupBillingDetailsRes, err error) {
-	err = models.ResolveLink(r, "billing", res)
+	err = models.ResolveLink(r, "billing", "GET", res)
 	return
 }
 
 func (r *GetGroupRes) Statistics() (res *GetGroupMonitoringStatisticsRes, err error) {
-	err = models.ResolveLink(r, "statistics", res)
+	err = models.ResolveLink(r, "statistics", "GET", res)
 	return
 }
 
 func (r *GetGroupRes) Server() (res *servers.GetServerRes, err error) {
-	err = models.ResolveLink(r, "server", res)
+	err = models.ResolveLink(r, "server", "GET", res)
 	return
 }

@@ -29,11 +29,11 @@ func (r *AntiAffinityPolicyRes) SetConnection(connection base.Connection) {
 }
 
 func (r *AntiAffinityPolicyRes) Self() (res *AntiAffinityPolicyRes, err error) {
-	err = models.ResolveLink(r, "self", res)
+	err = models.ResolveLink(r, "self", "GET", res)
 	return
 }
 
 func (r *AntiAffinityPolicyRes) Server() (res *servers.GetServerRes, err error) {
-	err = models.ResolveLink(r, "server", res)
+	err = models.ResolveLink(r, "server", "GET", res)
 	return
 }

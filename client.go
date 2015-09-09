@@ -245,5 +245,5 @@ func (cl *Client) executeRequest(verb string, url string, reqModel interface{}, 
 		err = fmt.Errorf("The client is not initialized. You should call Connect method first.")
 		return
 	}
-	return cl.connection.ExecuteRequest(verb, url, reqModel, resModel)
+	return cl.connection.ExecuteRequest(verb, API_VERSION + url, reqModel, resModel)
 }

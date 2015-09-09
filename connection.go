@@ -16,7 +16,11 @@ import (
 )
 
 //this made a variable instead of a constant for testing purpoises
-var BaseUrl = "https://api.tier3.com/v2/"
+var BaseUrl = "https://api.tier3.com"
+
+const (
+	API_VERSION = "/v2/"
+)
 
 type connection struct {
 	bearerToken  string
@@ -31,7 +35,7 @@ func newConnection(username string, password string, logger *log.Logger) (cn *co
 	cn.logger.Printf("Creating new connection. Username: %s", username)
 	loginReq := &authentication.LoginReq{username, password}
 	loginRes := &authentication.LoginRes{}
-	err = cn.ExecuteRequest("POST", "authentication/login", loginReq, loginRes)
+	err = cn.ExecuteRequest("POST", API_VERSION + "authentication/login", loginReq, loginRes)
 	if err != nil {
 		return
 	}

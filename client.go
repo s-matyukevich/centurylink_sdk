@@ -62,7 +62,7 @@ func (cl *Client) GetDatacenterDeploymentCapabilities(datacenter string) (res *d
 
 func (cl *Client) GetDatacenterGroup(datacenter string, groupLinks bool) (res *datacenters.GetDatacenterGroupRes, err error) {
 	res = &datacenters.GetDatacenterGroupRes{}
-	err = cl.executeRequest("GET", fmt.Sprintf("datacenters/{accountAlias}/%s?groupLinks=%t", datacenter, groupLinks), nil, &res)
+	err = cl.executeRequest("GET", fmt.Sprintf("datacenters/{accountAlias}/%s?groupLinks=%t", datacenter, groupLinks), nil, res)
 	return
 }
 

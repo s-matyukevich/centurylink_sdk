@@ -3,6 +3,7 @@ package datacenters
 import (
 	"github.com/s-matyukevich/centurylink_sdk/base"
 	"github.com/s-matyukevich/centurylink_sdk/models"
+	"github.com/s-matyukevich/centurylink_sdk/models/groups"
 )
 
 type GetDatacenterGroupRes struct {
@@ -27,11 +28,13 @@ func (r *GetDatacenterGroupRes) SetConnection(connection base.Connection) {
 }
 
 func (r *GetDatacenterGroupRes) Self() (res *GetDatacenterGroupRes, err error) {
+	res = &GetDatacenterGroupRes{}
 	err = models.ResolveLink(r, "self", "GET", res)
 	return
 }
 
-func (r *GetDatacenterGroupRes) RootGroup() (res *GetDatacenterGroupRes, err error) {
+func (r *GetDatacenterGroupRes) RootGroup() (res *groups.GetGroupRes, err error) {
+	res = &groups.GetGroupRes{}
 	err = models.ResolveLink(r, "group", "GET", res)
 	return
 }

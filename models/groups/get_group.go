@@ -6,17 +6,33 @@ import (
 	"github.com/s-matyukevich/centurylink_sdk/models/servers"
 )
 
+type ChangeInfo struct {
+	CreatedDate	string
+	CreatedBy	string
+	ModifiedDate	string
+	ModifiedBy	string
+}
+
+type CustomFields struct {
+	Id		string
+	Name		string
+	Value		string
+	DisplayValue	string
+}
+
 type GetGroupRes struct {
 	Connection   base.Connection
 	Id           string
 	Name         string
 	Description  string
+	LocationId   string
 	Type         string
 	Status       string
 	ServersCount int
-	Limits       GroupLimits
 	Groups       []GetGroupRes
 	Links        []models.Link
+	ChangeInfo   ChangeInfo
+	CustomFields []CustomFields
 }
 
 type GroupLimits struct {

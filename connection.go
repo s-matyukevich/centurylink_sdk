@@ -16,7 +16,7 @@ import (
 )
 
 //this made a variable instead of a constant for testing purpoises
-var BaseUrl = "https://api.tier3.com"
+var BaseUrl = "https://api.ctl.io"
 
 const (
 	API_VERSION = "/v2/"

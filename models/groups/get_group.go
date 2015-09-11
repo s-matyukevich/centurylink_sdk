@@ -1,6 +1,8 @@
 package groups
 
 import (
+	"time"
+
 	"github.com/s-matyukevich/centurylink_sdk/base"
 	"github.com/s-matyukevich/centurylink_sdk/models"
 	"github.com/s-matyukevich/centurylink_sdk/models/servers"
@@ -42,14 +44,15 @@ type GetGroupRes struct {
 }
 
 type ChangeInfo struct {
-	// Date/time that the group was created (format: "2013-11-22T23:38:50Z")
-	CreatedDate	string	`json: "createdDate"`
+	// Date/time that the group was created (format: "2013-11-22T23:38:50Z", which
+	// is compatible with RFC3339 format used by what the time package marshals).
+	CreatedDate	time.Time	`json: "createdDate"`
 	// Who created the group
-	CreatedBy	string	`json: "createdBy"`
+	CreatedBy	string		`json: "createdBy"`
 	// Date/time that the group was last updated (same format as @CreatedDate)
-	ModifiedDate	string	`json: "modifiedDate"`
+	ModifiedDate	time.Time	`json: "modifiedDate"`
 	// Who modified the group last
-	ModifiedBy	string	`json: "modifiedBy"`
+	ModifiedBy	string		`json: "modifiedBy"`
 }
 
 type CustomFields struct {

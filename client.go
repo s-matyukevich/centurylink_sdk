@@ -54,20 +54,36 @@ func (cl *Client) SetLogger(logger *log.Logger) (err error) {
 	return
 }
 
+/**
+ * Gets the list of capabilities that a specific data center supports for a given account,
+ * including the deployable networks, OS templates, and whether features like premium storage
+ * and shared load balancer configuration are available.
+ * This operation is helpful for retrieving network identifiers and OS template names to use when creating a server.
+ */
 func (cl *Client) GetDatacenterDeploymentCapabilities(datacenter string) (res *datacenters.GetDatacenterDeploymentCapabilitiesRes, err error) {
 	res = &datacenters.GetDatacenterDeploymentCapabilitiesRes{}
 	err = cl.executeRequest("GET", fmt.Sprintf("datacenters/{accountAlias}/%s/deploymentCapabilities", datacenter), nil, res)
 	return
 }
 
-func (cl *Client) GetDatacenterGroup(datacenter string, groupLinks bool) (res *datacenters.GetDatacenterGroupRes, err error) {
-	res = &datacenters.GetDatacenterGroupRes{}
-	err = cl.executeRequest("GET", fmt.Sprintf("datacenters/{accountAlias}/%s?groupLinks=%t", datacenter, groupLinks), nil, res)
+/**
+ * Gets the list of data centers that a given account has access to.
+ * Use this API operation when you need the list of data center names and codes that you have access to.
+ * Using that list of data centers, you can then query for the root group, and all the child groups in an entire data center.
+ */
+func (cl *Client) GetDatacenterList() (res []*datacenters.GetDatacenterListRes, err error) {
+	err = cl.executeRequest("GET", "datacenters/{accountAlias}", nil, &res)
 	return
 }
 
-func (cl *Client) GetDatacenterList() (res []*datacenters.GetDatacenterListRes, err error) {
-	err = cl.executeRequest("GET", "datacenters/{accountAlias}", nil, &res)
+/**
+ * Gets the details of a specific data center.
+ * Use this API operation when you want to discover the name of the root hardware group for a data center.
+ * Once you have that group alias, you can issue a secondary query to retrieve the entire group hierarchy for a given data center.
+ */
+func (cl *Client) GetDatacenter(datacenter string, groupLinks bool) (res *datacenters.GetDatacenterRes, err error) {
+	res = &datacenters.GetDatacenterRes{}
+	err = cl.executeRequest("GET", fmt.Sprintf("datacenters/{accountAlias}/%s?groupLinks=%t", datacenter, groupLinks), nil, res)
 	return
 }
 

@@ -19,8 +19,6 @@ type TestModelRes struct {
 	Links      []Link
 }
 
-var _ LinkModel = (*TestModelRes)(nil)
-
 func (r *TestModelRes) GetLinks() []Link {
 	return r.Links
 }

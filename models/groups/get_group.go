@@ -6,42 +6,62 @@ import (
 	"github.com/s-matyukevich/centurylink_sdk/models/servers"
 )
 
+/* Group Entity Definition */
+type GetGroupRes struct {
+	// Injected field; to traverse links
+	Connection	base.Connection
+
+	// User-defined name of the group
+	Name		string		`json: "name"`
+
+	// User-defined description of this group
+	Description	string		`json: "description"`
+
+	// ID of the group being queried
+	Id		string		`json: "id"`
+
+	// Data center location identifier
+	LocationId	string		`json: "locationId"`
+	// Group type which could include system types like "archive"
+	Type		string		`json: "type"`
+
+	// Describes if group is online or not (e.g. "active")
+	Status		string		`json: "status"`
+
+	// Number of servers this group contains
+	ServersCount	int		`json: "serversCount"`
+
+	// Refers to this same entity type for each sub-group
+	Groups		[]GetGroupRes	`json: "groups"`
+	// Collection of entity links that point to resources related to this group
+	Links		[]models.Link	`json: "links"`
+	// Describes "created" and "modified" details
+	ChangeInfo	ChangeInfo	`json: "changeInfo"`
+	// Details about any custom fields and their values
+	CustomFields	[]CustomFields	`json: "customFields"`
+}
+
 type ChangeInfo struct {
-	CreatedDate	string
-	CreatedBy	string
-	ModifiedDate	string
-	ModifiedBy	string
+	// Date/time that the group was created (format: "2013-11-22T23:38:50Z")
+	CreatedDate	string	`json: "createdDate"`
+	// Who created the group
+	CreatedBy	string	`json: "createdBy"`
+	// Date/time that the group was last updated (same format as @CreatedDate)
+	ModifiedDate	string	`json: "modifiedDate"`
+	// Who modified the group last
+	ModifiedBy	string	`json: "modifiedBy"`
 }
 
 type CustomFields struct {
-	Id		string
-	Name		string
-	Value		string
-	DisplayValue	string
+	// Unique ID of the custom field
+	Id		string	`json: "id"`
+	// Friendly name of the custom field
+	Name		string	`json: "name"`
+	// Underlying value of the field
+	Value		string	`json: "value"`
+	// Shown value of the field
+	DisplayValue	string	`json: "displayValue"`
 }
-
-type GetGroupRes struct {
-	Connection   base.Connection
-	Id           string
-	Name         string
-	Description  string
-	LocationId   string
-	Type         string
-	Status       string
-	ServersCount int
-	Groups       []GetGroupRes
-	Links        []models.Link
-	ChangeInfo   ChangeInfo
-	CustomFields []CustomFields
-}
-
-type GroupLimits struct {
-	Cpu       int
-	MemoryGB  int
-	StorageGB int
-}
-
-var _ models.LinkModel = (*GetGroupRes)(nil)
 
 func (r *GetGroupRes) GetLinks() []models.Link {
 	return r.Links

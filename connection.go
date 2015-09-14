@@ -100,6 +100,9 @@ func (cn *connection) processResponse(res *http.Response, resModel interface{}) 
 		if err != nil {
 			cn.logger.Printf(err.Error())
 		}
+		// FIXME: this is not descriptive enough
+		// FIXME: check if body contains JSON { "message": <descriptive text> }
+		//        and return that
 		return &errors.ApiError{
 			StatusCode:  res.StatusCode,
 			ApiResponse: resModel,

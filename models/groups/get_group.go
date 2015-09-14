@@ -5,7 +5,6 @@ import (
 
 	"github.com/s-matyukevich/centurylink_sdk/base"
 	"github.com/s-matyukevich/centurylink_sdk/models"
-	"github.com/s-matyukevich/centurylink_sdk/models/servers"
 )
 
 /* Group Entity Definition */
@@ -78,22 +77,14 @@ func (r *GetGroupRes) SetConnection(connection base.Connection) {
 	r.Connection = connection
 }
 
-func (r *GetGroupRes) Self() (res *GetGroupRes, err error) {
-	err = models.ResolveLink(r, "self", "GET", res)
-	return
-}
-
 func (r *GetGroupRes) Billing() (res *GetGroupBillingDetailsRes, err error) {
+	res = &GetGroupBillingDetailsRes{Connection: r.Connection}
 	err = models.ResolveLink(r, "billing", "GET", res)
 	return
 }
 
 func (r *GetGroupRes) Statistics() (res *GetGroupMonitoringStatisticsRes, err error) {
+	res = &GetGroupMonitoringStatisticsRes{Connection: r.Connection}
 	err = models.ResolveLink(r, "statistics", "GET", res)
-	return
-}
-
-func (r *GetGroupRes) Server() (res *servers.GetServerRes, err error) {
-	err = models.ResolveLink(r, "server", "GET", res)
 	return
 }

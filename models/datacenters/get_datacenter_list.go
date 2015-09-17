@@ -27,6 +27,6 @@ func (r *GetDatacenterListRes) SetConnection(connection base.Connection) {
 }
 
 func (r *GetDatacenterListRes) Self() (res *GetDatacenterListRes, err error) {
-	err = models.ResolveLink(r, "self", res)
+	err = models.ResolveLink(r, "self", "GET", res)
 	return
 }

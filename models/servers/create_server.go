@@ -5,31 +5,29 @@ import (
 )
 
 type CreateServerReq struct {
-	Nane                 string
-	Description          string
-	GroupId              string
-	SourceServerId       string
-	IsManagedOS          bool
-	PrimaryDns           string
-	SecondaryDns         string
-	IpAddress            string
-	Password             string
-	SourceServerPassword string
-	Cpu                  int
-	CpuAutoscalePolicyId string
-	MemoryGB             int
-	Type                 string
-	StorageType          string
-	AntiAffinityPolicyId string
-	CustomFields         []CustomFieldDef
-	AdditionalDisks      []AdditionalDiskDef
-	Ttl                  time.Time
-	Packages             []PackageDef
-}
-
-type CustomFieldDef struct {
-	Id    string
-	Value string
+	Name			string
+	Description		string
+	GroupId			string
+	SourceServerId		string
+	IsManagedOS		bool
+	PrimaryDns		string
+	SecondaryDns		string
+	IpAddress		string
+	Password		string
+	SourceServerPassword	string
+	Cpu			int
+	CpuAutoscalePolicyId	string
+	MemoryGB		int
+	Type			string
+	StorageType		string
+	AntiAffinityPolicyId	string
+	CustomFields		[]struct {
+					Id    string
+					Value string
+				}
+	AdditionalDisks		[]AdditionalDiskDef
+	Ttl			time.Time
+	Packages		[]PackageDef
 }
 
 type AdditionalDiskDef struct {

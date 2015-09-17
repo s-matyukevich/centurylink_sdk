@@ -2,9 +2,13 @@ package groups
 
 import (
 	"time"
+	"github.com/s-matyukevich/centurylink_sdk/base"
 )
 
 type GetGroupMonitoringStatisticsRes struct {
+	// Injected field; to traverse links
+	Connection	base.Connection
+
 	Name  string
 	Stats []StatsDef
 }

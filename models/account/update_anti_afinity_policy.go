@@ -1,5 +1,5 @@
 package account
 
-type UpdateAntiAfinityPolicyReq struct {
+type UpdateAntiAffinityPolicyReq struct {
 	Name string
 }

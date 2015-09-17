@@ -19,8 +19,6 @@ type TestModelRes struct {
 	Links      []Link
 }
 
-var _ LinkModel = (*TestModelRes)(nil)
-
 func (r *TestModelRes) GetLinks() []Link {
 	return r.Links
 }
@@ -59,13 +57,15 @@ func (s *LinkResolverSuite) TestResolveLink(c *gc.C) {
 	model := &TestModelRes{
 		Links: []Link{Link{Rel: "self"}, Link{Rel: "parent"}},
 	}
-	err := ResolveLink(model, "self", nil)
-
+	err := ResolveLink(model, "self", "GET", nil)
 	c.Check(err, gc.ErrorMatches, "Model connection is not initialized.")
+
 	model.Connection = &fakeConnection{C: c, verb: "GET"}
-	err = ResolveLink(model, "self", nil)
+	err = ResolveLink(model, "self", "GET", nil)
+	c.Check(err, gc.IsNil)
 
 	model.Connection = &fakeConnection{C: c, verb: "POST"}
-	model.Links[0].Verb = "POST"
-	err = ResolveLink(model, "self", nil)
+	model.Links[0].Verbs = []string{"POST"}
+	err = ResolveLink(model, "self", "POST", nil)
+	c.Check(err, gc.IsNil)
 }

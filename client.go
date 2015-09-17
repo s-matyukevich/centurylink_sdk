@@ -54,53 +54,69 @@ func (cl *Client) SetLogger(logger *log.Logger) (err error) {
 	return
 }
 
+/**
+ * Gets the list of capabilities that a specific data center supports for a given account,
+ * including the deployable networks, OS templates, and whether features like premium storage
+ * and shared load balancer configuration are available.
+ * This operation is helpful for retrieving network identifiers and OS template names to use when creating a server.
+ */
 func (cl *Client) GetDatacenterDeploymentCapabilities(datacenter string) (res *datacenters.GetDatacenterDeploymentCapabilitiesRes, err error) {
 	res = &datacenters.GetDatacenterDeploymentCapabilitiesRes{}
 	err = cl.executeRequest("GET", fmt.Sprintf("datacenters/{accountAlias}/%s/deploymentCapabilities", datacenter), nil, res)
 	return
 }
 
-func (cl *Client) GetDatacenterGroup(datacenter string, groupLinks bool) (res *datacenters.GetDatacenterGroupRes, err error) {
-	res = &datacenters.GetDatacenterGroupRes{}
-	err = cl.executeRequest("GET", fmt.Sprintf("datacenters/{accountAlias}/%s?groupLinks=%t", datacenter, groupLinks), nil, &res)
-	return
-}
-
+/**
+ * Gets the list of data centers that a given account has access to.
+ * Use this API operation when you need the list of data center names and codes that you have access to.
+ * Using that list of data centers, you can then query for the root group, and all the child groups in an entire data center.
+ */
 func (cl *Client) GetDatacenterList() (res []*datacenters.GetDatacenterListRes, err error) {
 	err = cl.executeRequest("GET", "datacenters/{accountAlias}", nil, &res)
 	return
 }
 
-func (cl *Client) GetStatus(statusId string) (res *queue.GetStatusRes, err error) {
-	res = &queue.GetStatusRes{}
-	err = cl.executeRequest("GET", fmt.Sprintf("operations/{acctAlias}/status/%s", statusId), nil, res)
+/**
+ * Gets the details of a specific data center.
+ * Use this API operation when you want to discover the name of the root hardware group for a data center.
+ * Once you have that group alias, you can issue a secondary query to retrieve the entire group hierarchy for a given data center.
+ */
+func (cl *Client) GetDatacenter(datacenter string, groupLinks bool) (res *datacenters.GetDatacenterRes, err error) {
+	res = &datacenters.GetDatacenterRes{}
+	err = cl.executeRequest("GET", fmt.Sprintf("datacenters/{accountAlias}/%s?groupLinks=%t", datacenter, groupLinks), nil, res)
 	return
 }
 
-func (cl *Client) DeleteAntiAfinityPolicy(policyId string) (err error) {
+func (cl *Client) GetStatus(statusId string) (res *queue.GetStatusRes, err error) {
+	res = &queue.GetStatusRes{}
+	err = cl.executeRequest("GET", fmt.Sprintf("operations/{accountAlias}/status/%s", statusId), nil, res)
+	return
+}
+
+func (cl *Client) DeleteAntiAffinityPolicy(policyId string) (err error) {
 	err = cl.executeRequest("DELETE", fmt.Sprintf("antiAffinityPolicies/{accountAlias}/%S", policyId), nil, nil)
 	return
 }
 
-func (cl *Client) UpdateAntiAfinityPolicy(policyId string, req *account.UpdateAntiAfinityPolicyReq) (res *account.AntiAfinityPolicyRes, err error) {
-	res = &account.AntiAfinityPolicyRes{}
+func (cl *Client) UpdateAntiAffinityPolicy(policyId string, req *account.UpdateAntiAffinityPolicyReq) (res *account.AntiAffinityPolicyRes, err error) {
+	res = &account.AntiAffinityPolicyRes{}
 	err = cl.executeRequest("PUT", fmt.Sprintf("antiAffinityPolicies/{accountAlias}/%S", policyId), req, res)
 	return
 }
 
-func (cl *Client) CreateAntiAfinityPolicy(policyId string, req *account.CreateAntiAfinityPolicyReq) (res *account.AntiAfinityPolicyRes, err error) {
-	res = &account.AntiAfinityPolicyRes{}
+func (cl *Client) CreateAntiAffinityPolicy(policyId string, req *account.CreateAntiAffinityPolicyReq) (res *account.AntiAffinityPolicyRes, err error) {
+	res = &account.AntiAffinityPolicyRes{}
 	err = cl.executeRequest("PUT", fmt.Sprintf("antiAffinityPolicies/{accountAlias}/%S", policyId), req, res)
 	return
 }
 
-func (cl *Client) GetAntiAfinityPolicy(policyId string) (res *account.AntiAfinityPolicyRes, err error) {
-	res = &account.AntiAfinityPolicyRes{}
+func (cl *Client) GetAntiAffinityPolicy(policyId string) (res *account.AntiAffinityPolicyRes, err error) {
+	res = &account.AntiAffinityPolicyRes{}
 	err = cl.executeRequest("PUT", fmt.Sprintf("antiAffinityPolicies/{accountAlias}/%S", policyId), nil, res)
 	return
 }
 
-func (cl *Client) GetAntiAfinityPolicies() (res []*account.AntiAfinityPolicyRes, err error) {
+func (cl *Client) GetAntiAffinityPolicies() (res []*account.AntiAffinityPolicyRes, err error) {
 	err = cl.executeRequest("PUT", "antiAffinityPolicies/{accountAlias}/%S", nil, &res)
 	return
 }
@@ -245,5 +261,5 @@ func (cl *Client) executeRequest(verb string, url string, reqModel interface{}, 
 		err = fmt.Errorf("The client is not initialized. You should call Connect method first.")
 		return
 	}
-	return cl.connection.ExecuteRequest(verb, url, reqModel, resModel)
+	return cl.connection.ExecuteRequest(verb, API_VERSION + url, reqModel, resModel)
 }

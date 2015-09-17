@@ -16,7 +16,11 @@ import (
 )
 
 //this made a variable instead of a constant for testing purpoises
-var BaseUrl = "https://api.tier3.com/v2/"
+var BaseUrl = "https://api.ctl.io"
+
+const (
+	API_VERSION = "/v2/"
+)
 
 type connection struct {
 	bearerToken  string
@@ -31,13 +35,13 @@ func newConnection(username string, password string, logger *log.Logger) (cn *co
 	cn.logger.Printf("Creating new connection. Username: %s", username)
 	loginReq := &authentication.LoginReq{username, password}
 	loginRes := &authentication.LoginRes{}
-	err = cn.ExecuteRequest("POST", "authentication/login", loginReq, loginRes)
+	err = cn.ExecuteRequest("POST", API_VERSION + "authentication/login", loginReq, loginRes)
 	if err != nil {
 		return
 	}
 	cn.bearerToken = loginRes.BearerToken
 	cn.accountAlias = loginRes.AccountAlias
-	cn.logger.Printf("Updateing connection. Bearer: %s, Alias: %s", cn.bearerToken, cn.accountAlias)
+	cn.logger.Printf("Updating connection. Bearer: %s, Alias: %s", cn.bearerToken, cn.accountAlias)
 	return
 }
 
@@ -96,6 +100,9 @@ func (cn *connection) processResponse(res *http.Response, resModel interface{}) 
 		if err != nil {
 			cn.logger.Printf(err.Error())
 		}
+		// FIXME: this is not descriptive enough
+		// FIXME: check if body contains JSON { "message": <descriptive text> }
+		//        and return that
 		return &errors.ApiError{
 			StatusCode:  res.StatusCode,
 			ApiResponse: resModel,

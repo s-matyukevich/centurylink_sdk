@@ -2,9 +2,13 @@ package groups
 
 import (
 	"time"
+	"github.com/s-matyukevich/centurylink_sdk/base"
 )
 
 type GetGroupBillingDetailsRes struct {
+	// Injected field; to traverse links
+	Connection	base.Connection
+
 	Date   time.Time
 	Groups map[string]GroupDef
 }

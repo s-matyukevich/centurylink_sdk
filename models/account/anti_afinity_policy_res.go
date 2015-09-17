@@ -6,7 +6,7 @@ import (
 	"github.com/s-matyukevich/centurylink_sdk/models/servers"
 )
 
-type AntiAfinityPolicyRes struct {
+type AntiAffinityPolicyRes struct {
 	Connection base.Connection
 	Id         string
 	Name       string
@@ -14,26 +14,26 @@ type AntiAfinityPolicyRes struct {
 	Links      []models.Link
 }
 
-var _ models.LinkModel = (*AntiAfinityPolicyRes)(nil)
+var _ models.LinkModel = (*AntiAffinityPolicyRes)(nil)
 
-func (r *AntiAfinityPolicyRes) GetLinks() []models.Link {
+func (r *AntiAffinityPolicyRes) GetLinks() []models.Link {
 	return r.Links
 }
 
-func (r *AntiAfinityPolicyRes) GetConnection() base.Connection {
+func (r *AntiAffinityPolicyRes) GetConnection() base.Connection {
 	return r.Connection
 }
 
-func (r *AntiAfinityPolicyRes) SetConnection(connection base.Connection) {
+func (r *AntiAffinityPolicyRes) SetConnection(connection base.Connection) {
 	r.Connection = connection
 }
 
-func (r *AntiAfinityPolicyRes) Self() (res *AntiAfinityPolicyRes, err error) {
-	err = models.ResolveLink(r, "self", res)
+func (r *AntiAffinityPolicyRes) Self() (res *AntiAffinityPolicyRes, err error) {
+	err = models.ResolveLink(r, "self", "GET", res)
 	return
 }
 
-func (r *AntiAfinityPolicyRes) Server() (res *servers.GetServerRes, err error) {
-	err = models.ResolveLink(r, "server", res)
+func (r *AntiAffinityPolicyRes) Server() (res *servers.GetServerRes, err error) {
+	err = models.ResolveLink(r, "server", "GET", res)
 	return
 }
